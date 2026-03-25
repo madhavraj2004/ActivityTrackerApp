@@ -19,9 +19,16 @@ public class PredictionManager {
 
         Map<Integer, Integer> freq = new HashMap<>();
         for (SyncRow row : window) {
+            // Defensive: SyncEngine already guarantees d1/d2 non-null in the
+            // window, but guard here too so this class never crashes regardless
+            // of how it is called.
+            if (row == null || row.d1 == null || row.d2 == null) continue;
+
             int code = right ? row.d1.predictedLabel : row.d2.predictedLabel;
             freq.put(code, freq.getOrDefault(code, 0) + 1);
         }
+
+        if (freq.isEmpty()) return 0;
 
         int bestCode = 0;
         int bestCount = -1;

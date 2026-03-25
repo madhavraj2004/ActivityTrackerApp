@@ -59,7 +59,7 @@ public class ActivityFragment extends Fragment implements BleConnector.Callback 
     private final Map<String, BluetoothDevice> cachedDevices = new HashMap<>();
     private final ArrayList<String> activities = new ArrayList<>();
     private long lastSpeakTime = 0;
-    
+
     private static final long SPEAK_INTERVAL = 6000; // 6 seconds
     private String lastSpokenActivity = null;
     private boolean recording = false;
@@ -221,20 +221,20 @@ public class ActivityFragment extends Fragment implements BleConnector.Callback 
 
             if (row == null || row.d1 == null || row.d2 == null) return;
 
-            // 🔥 IMPORTANT: ignore invalid labels
+            // ✅ Skip rows where BOTH sides have label 0
             if (row.d1.predictedLabel == 0 && row.d2.predictedLabel == 0) return;
 
-            // ✅ CSV write
+            // ✅ CSV write — CsvManager.write() posts to its own writeThread internally.
+            // This lambda itself runs on SyncEngine's syncThread, so returning fast
+            // here is important. write() returns immediately (just posts a message).
             if (recording && selectedActivity != null) {
-
-                android.util.Log.d("CSV_ACTIVITY", "Writing: " + selectedActivity);
-
                 csvManager.write(row, selectedActivity);
             }
 
-            // ✅ Speech
+            // ✅ Speech — unchanged
             handleSpeech(row);
 
+            // ✅ Live buffer UI — unchanged
             requireActivity().runOnUiThread(() -> {
                 bufferAdapter.addRow(row);
                 rvBuffer.scrollToPosition(bufferAdapter.getItemCount() - 1);
@@ -598,5 +598,8 @@ public class ActivityFragment extends Fragment implements BleConnector.Callback 
     public void onDestroy() {
         super.onDestroy();
         bleConnector.stopScan();
+        syncEngine.shutdown();   // ← ADD THIS LINE
+        // csvManager.shutdown() is optional but clean:
+        // csvManager.shutdown();
     }
 }
