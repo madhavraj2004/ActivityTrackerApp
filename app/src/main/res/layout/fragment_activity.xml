@@ -12,22 +12,32 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <TextView
-            android:id="@+id/txtPredictions"
+        <!-- Predictions -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:fontFamily="sans-serif-medium"
-            android:textSize="18sp"
-            android:textColor="#222222"
-            android:text="Right hand predicts -\nLeft hand predicts -"
-            android:padding="8dp" />
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="#FFFFFF">
 
+            <TextView
+                android:id="@+id/txtPredictions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="14dp"
+                android:gravity="center"
+                android:text="Right hand predicts -\nLeft hand predicts -"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#222222"/>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Status -->
         <TextView
             android:id="@+id/txtSelectedActivity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="Selected activity: none"
             android:textStyle="bold"
@@ -38,12 +48,13 @@
             android:id="@+id/txtRecordState"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_marginTop="4dp"
+            android:gravity="center"
             android:text="Recording: OFF"
             android:textSize="14sp"
             android:textColor="#3F51B5" />
 
+        <!-- Activities List -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvActivities"
             android:layout_width="match_parent"
@@ -51,43 +62,61 @@
             android:layout_marginTop="14dp"
             android:nestedScrollingEnabled="false" />
 
+        <!-- Input Fields -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/customActivityLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Add custom activity">
+            android:hint="Add custom activity"
+            app:boxStrokeColor="#5E35B1"
+            app:hintTextColor="#333333">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etCustomActivity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textCapWords" />
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etCustomActivity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Activity ID">
+            android:textColor="#000000"
+            android:textColorHint="#000000"
+            android:inputType="textCapWords" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etCustomId"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number"/>
-        </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="Enter Activity ID"
+        app:boxStrokeColor="#5E35B1"
+        app:hintTextColor="#333333">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etCustomId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textColorHint="#555555"
+            android:inputType="number"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Add Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAddCustomActivity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="10dp"
             android:text="Add Activity"
-            app:cornerRadius="14dp" />
+            app:cornerRadius="14dp"
+            app:backgroundTint="#6750A4"
+            android:textColor="#FFFFFF"/>
 
+        <!-- Start Stop -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="14dp"
             android:orientation="horizontal">
 
             <com.google.android.material.button.MaterialButton
@@ -97,7 +126,9 @@
                 android:layout_weight="1"
                 android:text="Start"
                 android:enabled="false"
-                app:cornerRadius="14dp" />
+                app:cornerRadius="14dp"
+                app:backgroundTint="#4CAF50"
+                android:textColor="#FFFFFF"/>
 
             <Space
                 android:layout_width="12dp"
@@ -111,109 +142,126 @@
                 android:text="Stop"
                 android:enabled="false"
                 app:cornerRadius="14dp"
-                app:backgroundTint="#EF4444" />
+                app:backgroundTint="#EF4444"
+                android:textColor="#FFFFFF"/>
         </LinearLayout>
 
+        <!-- Device Cards -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:orientation="horizontal">
 
+            <!-- Right -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginEnd="6dp"
                 app:cardCornerRadius="18dp"
-                app:cardElevation="4dp">
+                app:cardElevation="3dp"
+                app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="12dp"
+                    android:padding="14dp"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/txtRightStatus"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:text="Right device: disconnected"
                         android:textStyle="bold"
                         android:textSize="14sp"
-                        android:textColor="#ff1359" />
+                        android:textColor="#D32F2F"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnDisconnectRight"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Disconnect Right"/>
+                        android:text="Disconnect Right"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"/>
+
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnConnectRight"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="8dp"
                         android:text="Connect Right"
                         android:enabled="false"
-                        app:cornerRadius="14dp" />
+                        app:cornerRadius="14dp"
+                        app:backgroundTint="#6750A4"
+                        android:textColor="#FFFFFF"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- Left -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginStart="6dp"
                 app:cardCornerRadius="18dp"
-                app:cardElevation="4dp">
+                app:cardElevation="3dp"
+                app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="12dp"
+                    android:padding="14dp"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/txtLeftStatus"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:text="Left device: disconnected"
                         android:textStyle="bold"
                         android:textSize="14sp"
-                        android:textColor="#ff1359" />
+                        android:textColor="#D32F2F"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnDisconnectLeft"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Disconnect Left"/>
+                        android:text="Disconnect Left"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"/>
+
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnConnectLeft"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="8dp"
                         android:text="Connect Left"
                         android:enabled="false"
-                        app:cornerRadius="14dp" />
+                        app:cornerRadius="14dp"
+                        app:backgroundTint="#6750A4"
+                        android:textColor="#FFFFFF"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-
         </LinearLayout>
 
+        <!-- Live Buffer -->
         <TextView
             android:id="@+id/txtLiveBufferTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
             android:text="LIVE BUFFER"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:textColor="#222222" />
+            android:textColor="#222222"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvBuffer"
             android:layout_width="match_parent"
-            android:layout_height="196dp"
+            android:layout_height="110dp"
             android:layout_marginTop="8dp" />
 
+        <!-- Export -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnExport"
             android:layout_width="match_parent"
@@ -221,7 +269,8 @@
             android:layout_marginTop="14dp"
             android:text="Export CSV"
             app:cornerRadius="14dp"
-            app:backgroundTint="#6750A4" />
+            app:backgroundTint="#6750A4"
+            android:textColor="#FFFFFF"/>
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

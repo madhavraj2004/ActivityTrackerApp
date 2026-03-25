@@ -61,12 +61,12 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="580a6581-a6c4-4ef9-bf88-f089113ae0b5" name="Changes" comment="">
+    <list default="true" id="580a6581-a6c4-4ef9-bf88-f089113ae0b5" name="Changes" comment="data loss minimized">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/fitwatch/app/ActivityFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/fitwatch/app/ActivityFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/fitwatch/app/CsvManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/fitwatch/app/CsvManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/fitwatch/app/PredictionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/fitwatch/app/PredictionManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/fitwatch/app/SyncEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/fitwatch/app/SyncEngine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/fitwatch/app/BleConnector.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/fitwatch/app/BleConnector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_activity.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_activity.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_device.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_device.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -245,19 +245,32 @@
       <option name="presentableId" value="Default" />
       <updated>1773905611184</updated>
     </task>
+    <task id="LOCAL-00001" summary="data loss minimized">
+      <option name="closed" value="true" />
+      <created>1774434162680</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1774434162680</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="data loss minimized" />
+    <option name="LAST_COMMIT_MESSAGE" value="data loss minimized" />
   </component>
   <component name="play_dynamic_filters_status">
     <option name="appIdToCheckInfo">
       <map>
         <entry key="com.fitwatch.app">
           <value>
-            <CheckInfo lastCheckTimestamp="1774158417221" />
+            <CheckInfo lastCheckTimestamp="1774434704430" />
           </value>
         </entry>
         <entry key="com.fitwatch.app.test">
           <value>
-            <CheckInfo lastCheckTimestamp="1774158417221" />
+            <CheckInfo lastCheckTimestamp="1774434704430" />
           </value>
         </entry>
       </map>

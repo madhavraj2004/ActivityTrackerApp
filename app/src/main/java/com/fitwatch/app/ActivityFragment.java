@@ -550,15 +550,16 @@ public class ActivityFragment extends Fragment implements BleConnector.Callback 
         });
     }
 
+
     @Override
     public void onRightStatus(String t) {
         requireActivity().runOnUiThread(() -> {
             txtRightStatus.setText("RIGHT: " + t);
+            rightConnected = t.equalsIgnoreCase("Connected");
 
-            if (t.equalsIgnoreCase("Connected")) {
-                rightConnected = true;
-            } else {
-                rightConnected = false;
+            // Stop scan once both sides are connected — frees radio for notifications
+            if (rightConnected && leftConnected) {
+                bleConnector.stopScan();
             }
             updateControls();
         });
@@ -568,12 +569,13 @@ public class ActivityFragment extends Fragment implements BleConnector.Callback 
     public void onLeftStatus(String t) {
         requireActivity().runOnUiThread(() -> {
             txtLeftStatus.setText("LEFT: " + t);
-            if (t.equalsIgnoreCase("Connected")) {
-                leftConnected = true;
-            } else {
-                leftConnected = false;
+            leftConnected = t.equalsIgnoreCase("Connected");
+
+            // Stop scan once both sides are connected — frees radio for notifications
+            if (rightConnected && leftConnected) {
+                bleConnector.stopScan();
             }
-            updateControls(); // 🔥 ADD after deletion
+            updateControls();
         });
     }
     @Override
@@ -598,8 +600,7 @@ public class ActivityFragment extends Fragment implements BleConnector.Callback 
     public void onDestroy() {
         super.onDestroy();
         bleConnector.stopScan();
-        syncEngine.shutdown();   // ← ADD THIS LINE
-        // csvManager.shutdown() is optional but clean:
-        // csvManager.shutdown();
+        bleConnector.shutdown();   // ← shuts down dedicated gattThread cleanly
+        syncEngine.shutdown();
     }
 }
