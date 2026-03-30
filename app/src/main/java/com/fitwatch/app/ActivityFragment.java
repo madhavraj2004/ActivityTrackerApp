@@ -392,10 +392,10 @@ public class ActivityFragment extends Fragment implements BleConnector.Callback 
     }
     private void handleSpeech(SyncRow row) {
         if (!recording) return;
-        if (row == null || row.d1 == null || row.d2 == null) return;
+        if (row == null) return;
 
-        int r = row.d1.predictedLabel;
-        int l = row.d2.predictedLabel;
+        int r = (row.d1 != null) ? row.d1.predictedLabel : 0;
+        int l = (row.d2 != null) ? row.d2.predictedLabel : 0;
 
         if (r == 0 && l == 0) return;
 
@@ -411,30 +411,34 @@ public class ActivityFragment extends Fragment implements BleConnector.Callback 
 
         StringBuilder speech = new StringBuilder();
 
-        // 🔥 LEFT HAND
-        if (lastLeftSpoken.isEmpty()) {
-            speech.append("Left hand ").append(leftText).append(". ");
-        } else if (!leftText.equals(lastLeftSpoken)) {
-            speech.append("Left hand changed from ")
-                    .append(lastLeftSpoken)
-                    .append(" to ")
-                    .append(leftText)
-                    .append(". ");
-        } else {
-            speech.append("Left hand ").append(leftText).append(". ");
+// LEFT
+        if (row.d2 != null) {
+            if (lastLeftSpoken.isEmpty()) {
+                speech.append("Left hand ").append(leftText).append(". ");
+            } else if (!leftText.equals(lastLeftSpoken)) {
+                speech.append("Left hand changed from ")
+                        .append(lastLeftSpoken)
+                        .append(" to ")
+                        .append(leftText)
+                        .append(". ");
+            } else {
+                speech.append("Left hand ").append(leftText).append(". ");
+            }
         }
 
-        // 🔥 RIGHT HAND
-        if (lastRightSpoken.isEmpty()) {
-            speech.append("Right hand ").append(rightText).append(". ");
-        } else if (!rightText.equals(lastRightSpoken)) {
-            speech.append("Right hand changed from ")
-                    .append(lastRightSpoken)
-                    .append(" to ")
-                    .append(rightText)
-                    .append(". ");
-        } else {
-            speech.append("Right hand ").append(rightText).append(". ");
+// RIGHT
+        if (row.d1 != null) {
+            if (lastRightSpoken.isEmpty()) {
+                speech.append("Right hand ").append(rightText).append(". ");
+            } else if (!rightText.equals(lastRightSpoken)) {
+                speech.append("Right hand changed from ")
+                        .append(lastRightSpoken)
+                        .append(" to ")
+                        .append(rightText)
+                        .append(". ");
+            } else {
+                speech.append("Right hand ").append(rightText).append(". ");
+            }
         }
 
         // 🔥 UPDATE LAST STATE
@@ -450,8 +454,8 @@ public class ActivityFragment extends Fragment implements BleConnector.Callback 
         lastRightSpoken = "";
         lastLeftSpoken = "";
         lastSpokenActivity = selectedActivity;
-        if (!rightConnected || !leftConnected) {
-            toast("Connect BOTH devices first");
+        if (!rightConnected && !leftConnected) {
+            toast("Connect at least ONE device");
             return;
         }
 
@@ -529,8 +533,7 @@ public class ActivityFragment extends Fragment implements BleConnector.Callback 
     private void updateControls() {
         btnStart.setEnabled(
                 selectedActivity != null &&
-                        rightConnected &&
-                        leftConnected &&
+                        (rightConnected || leftConnected) &&
                         !recording
         );
         btnStop.setEnabled(recording);
@@ -557,10 +560,17 @@ public class ActivityFragment extends Fragment implements BleConnector.Callback 
             txtRightStatus.setText("RIGHT: " + t);
             rightConnected = t.equalsIgnoreCase("Connected");
 
-            // Stop scan once both sides are connected — frees radio for notifications
-            if (rightConnected && leftConnected) {
-                bleConnector.stopScan();
+            if (!rightConnected) {
+                syncEngine.reset();
+                speak("Right device disconnected");
             }
+
+            // 🔥 STOP if both gone
+            if (!rightConnected && !leftConnected && recording) {
+                stopRecording();
+                speak("All devices disconnected. Recording stopped");
+            }
+
             updateControls();
         });
     }
@@ -571,10 +581,17 @@ public class ActivityFragment extends Fragment implements BleConnector.Callback 
             txtLeftStatus.setText("LEFT: " + t);
             leftConnected = t.equalsIgnoreCase("Connected");
 
-            // Stop scan once both sides are connected — frees radio for notifications
-            if (rightConnected && leftConnected) {
-                bleConnector.stopScan();
+            if (!leftConnected) {
+                syncEngine.reset();
+                speak("Left device disconnected");
             }
+
+            // 🔥 STOP if both gone
+            if (!rightConnected && !leftConnected && recording) {
+                stopRecording();
+                speak("All devices disconnected. Recording stopped");
+            }
+
             updateControls();
         });
     }

@@ -168,22 +168,30 @@ public class SyncEngine {
 
         // Both sides must be non-null before we can produce a valid row.
         // During startup, one side may not have arrived yet — skip until ready.
-        if (resolvedR == null || resolvedL == null) return;
-
+// Allow single-side operation
+        if (resolvedR == null && resolvedL == null) return;
         long ts = System.currentTimeMillis();
 
-        SyncRow row = new SyncRow(ts, resolvedR, resolvedL);
-
+        SyncRow row = new SyncRow(
+                ts,
+                resolvedR != null ? resolvedR : new SensorPacket(),
+                resolvedL != null ? resolvedL : new SensorPacket()
+        );
         // ── Both-sides-fresh gate ─────────────────────────────────────────────
         // Only pass row to liveListener (→ CSV write) when both sides have
         // each delivered at least one new packet since the last write.
         // This means every written row has genuinely new data on BOTH sides —
         // no repeated timestamps on either hand, ever.
-        if (rightFreshSinceWrite && leftFreshSinceWrite) {
+        boolean allowWrite =
+                (resolvedR != null && resolvedL != null && rightFreshSinceWrite && leftFreshSinceWrite)
+                        || (resolvedR != null && resolvedL == null && rightFreshSinceWrite)
+                        || (resolvedR == null && resolvedL != null && leftFreshSinceWrite);
+
+        if (allowWrite) {
             if (liveListener != null) {
                 liveListener.onNewRow(row);
             }
-            // Reset flags — both sides must send fresh data again before next write
+
             rightFreshSinceWrite = false;
             leftFreshSinceWrite  = false;
         }
