@@ -1,0 +1,24 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/activityFragment">
+
+    <!-- your existing fragments -->
+    <fragment
+        android:id="@+id/activityFragment"
+        android:name="com.fitwatch.app.ActivityFragment"
+        android:label="Home" />
+
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.fitwatch.app.ProfileFragment"
+        android:label="Profile" />
+
+
+    <fragment
+        android:id="@+id/inferenceFragment"
+        android:name="com.fitwatch.app.InferenceFragment"
+        android:label="Inference" />
+
+</navigation>

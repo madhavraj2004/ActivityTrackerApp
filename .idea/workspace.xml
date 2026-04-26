@@ -5,6 +5,11 @@
       <config />
     </shared>
     <layouts>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_inference.xml">
+        <config>
+          <theme>@style/Theme.Material3.DayNight.NoActionBar</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
         <config>
           <theme>@style/Theme.Material3.DayNight.NoActionBar</theme>
@@ -23,6 +28,11 @@
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_data.xml">
         <config>
           <theme>@style/Theme.ActivityTrackerApp</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_inference.xml">
+        <config>
+          <theme>@style/Theme.Material3.DayNight.NoActionBar</theme>
         </config>
       </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_profile.xml">
@@ -55,16 +65,36 @@
           <theme>@style/Theme.Material3.DayNight.NoActionBar</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/navigation/nav_graph.xml">
+        <config>
+          <theme>@style/Theme.Material3.DayNight.NoActionBar</theme>
+        </config>
+      </layout>
     </layouts>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="580a6581-a6c4-4ef9-bf88-f089113ae0b5" name="Changes" comment="data loss minimized">
+    <list default="true" id="580a6581-a6c4-4ef9-bf88-f089113ae0b5" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/fitwatch/app/InferenceViewModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_inference.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_inference.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/navigation/nav_graph.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/navEditor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/navEditor.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/fitwatch/app/ActivityFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/fitwatch/app/ActivityFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/fitwatch/app/CsvManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/fitwatch/app/CsvManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/fitwatch/app/LabelMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/fitwatch/app/LabelMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/fitwatch/app/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/fitwatch/app/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/fitwatch/app/ProfileFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/fitwatch/app/ProfileFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/fitwatch/app/SyncEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/fitwatch/app/SyncEngine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_activity.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_activity.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_profile.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_profile.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/menu/bottom_navigation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/menu/bottom_navigation.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,8 +130,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="navigationResourceFile" />
         <option value="layoutResourceFile" />
         <option value="Class" />
+        <option value="resourceFile" />
       </list>
     </option>
   </component>
@@ -121,6 +153,9 @@
     &quot;accountId&quot;: &quot;ded7c0b4-05a1-4b64-8b57-12a3da35a045&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
 }</component>
@@ -259,24 +294,43 @@
       <option name="project" value="LOCAL" />
       <updated>1774436294372</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="updated code to record with single or multiple device at a time">
+      <option name="closed" value="true" />
+      <created>1774872923472</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1774872923472</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="data loss minimized" />
-    <option name="LAST_COMMIT_MESSAGE" value="data loss minimized" />
+    <MESSAGE value="updated code to record with single or multiple device at a time" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated code to record with single or multiple device at a time" />
   </component>
   <component name="play_dynamic_filters_status">
     <option name="appIdToCheckInfo">
       <map>
         <entry key="com.fitwatch.app">
           <value>
-            <CheckInfo lastCheckTimestamp="1774434704430" />
+            <CheckInfo lastCheckTimestamp="1776238342454" />
+          </value>
+        </entry>
+        <entry key="com.fitwatch.app.infer">
+          <value>
+            <CheckInfo lastCheckTimestamp="1777187216536" />
+          </value>
+        </entry>
+        <entry key="com.fitwatch.app.infer.test">
+          <value>
+            <CheckInfo lastCheckTimestamp="1777187216533" />
           </value>
         </entry>
         <entry key="com.fitwatch.app.test">
           <value>
-            <CheckInfo lastCheckTimestamp="1774434704430" />
+            <CheckInfo lastCheckTimestamp="1776238342454" />
           </value>
         </entry>
       </map>

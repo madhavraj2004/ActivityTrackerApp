@@ -42,8 +42,10 @@ public class CsvManager {
         rows.clear();
         rows.add(
                 "timestamp,activity," +
-                        "d1_imu_ts,d1_predicted,d1_ax,d1_ay,d1_az,d1_gx,d1_gy,d1_gz," +
-                        "d2_imu_ts,d2_predicted,d2_ax,d2_ay,d2_az,d2_gx,d2_gy,d2_gz"
+                        "d1_imu_ts,d1_predicted," +
+                        "D1_acc_X,D1_acc_Y,D1_acc_Z,D1_gyro_X,D1_gyro_Y,D1_gyro_Z," +
+                        "d2_imu_ts,d2_predicted," +
+                        "D2_acc_X,D2_acc_Y,D2_acc_Z,D2_gyro_X,D2_gyro_Y,D2_gyro_Z"
         );
         active = true;
         Log.d(TAG, "Recording started");

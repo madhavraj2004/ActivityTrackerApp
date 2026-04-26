@@ -25,9 +25,7 @@ public class ProfileFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        exportBtn = view.findViewById(R.id.exportBtn);
 
-        exportBtn.setOnClickListener(v -> exportCsv());
 
         return view;
     }

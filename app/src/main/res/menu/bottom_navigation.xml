@@ -1,19 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/nav_activity"
+        android:id="@+id/activityFragment"
         android:title="Activity"
         android:icon="@android:drawable/ic_media_play"/>
 
-    <item
-        android:id="@+id/nav_data"
-        android:title="Data"
-        android:icon="@android:drawable/ic_menu_info_details"/>
+
 
     <item
-        android:id="@+id/nav_profile"
+        android:id="@+id/profileFragment"
         android:title="Profile"
         android:icon="@android:drawable/ic_menu_myplaces"/>
+
+    <item
+        android:id="@+id/inferenceFragment"
+        android:icon="@drawable/ic_inference"
+        android:title="Infer" />
 
 </menu>

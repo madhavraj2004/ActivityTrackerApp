@@ -13,10 +13,15 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,12 +64,22 @@ public class MainActivity extends AppCompatActivity {
         // 🔥 Ask permissions
         checkAndRequestPermissions();
 
-        if (savedInstanceState == null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.container, new ActivityFragment())
-                    .commit();
+        // ✅ SETUP NAVIGATION (IMPORTANT)
+        // ✅ SETUP NAVIGATION (FIXED)
+  // add at top
+
+        NavHostFragment navHostFragment =
+                (NavHostFragment) getSupportFragmentManager()
+                        .findFragmentById(R.id.nav_host_fragment);
+
+        if (navHostFragment == null) {
+            throw new RuntimeException("NavHostFragment NOT FOUND");
         }
+
+        NavController navController = navHostFragment.getNavController();
+
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
+        NavigationUI.setupWithNavController(bottomNav, navController);
     }
 
     // ================= PERMISSIONS =================
@@ -74,21 +89,17 @@ public class MainActivity extends AppCompatActivity {
         List<String> permissions = new ArrayList<>();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            // Android 12+
             if (!hasPermission(Manifest.permission.BLUETOOTH_SCAN)) {
                 permissions.add(Manifest.permission.BLUETOOTH_SCAN);
             }
             if (!hasPermission(Manifest.permission.BLUETOOTH_CONNECT)) {
                 permissions.add(Manifest.permission.BLUETOOTH_CONNECT);
             }
-
-            // 🔥 Needed on many devices
             if (!hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
                 permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
             }
 
         } else {
-            // Android < 12
             if (!hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
                 permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
             }
@@ -122,11 +133,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // 🔥 Called every time app comes to foreground
     @Override
     protected void onResume() {
         super.onResume();
-
         checkBluetoothEnabled();
     }
 }

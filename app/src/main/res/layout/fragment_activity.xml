@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="#F7F5FA">
+    android:background="#F7F5FA"
+    android:paddingBottom="80dp"
+    android:clipToPadding="false">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,7 +15,7 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Predictions -->
+        <!-- ── On-device prediction from ESP32 labels ── -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,13 +29,13 @@
                 android:layout_height="wrap_content"
                 android:padding="14dp"
                 android:gravity="center"
-                android:text="Right hand predicts -\nLeft hand predicts -"
+                android:text="Right hand predicts -&#10;Left hand predicts -"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="#222222"/>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Status -->
+        <!-- ── Selected activity ── -->
         <TextView
             android:id="@+id/txtSelectedActivity"
             android:layout_width="match_parent"
@@ -42,8 +45,9 @@
             android:text="Selected activity: none"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:textColor="#4CAF50" />
+            android:textColor="#4CAF50"/>
 
+        <!-- ── Recording state ── -->
         <TextView
             android:id="@+id/txtRecordState"
             android:layout_width="match_parent"
@@ -52,19 +56,18 @@
             android:gravity="center"
             android:text="Recording: OFF"
             android:textSize="14sp"
-            android:textColor="#3F51B5" />
+            android:textColor="#3F51B5"/>
 
-        <!-- Activities List -->
+        <!-- ── Activity grid ── -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvActivities"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
-            android:nestedScrollingEnabled="false" />
+            android:nestedScrollingEnabled="false"/>
 
-        <!-- Input Fields -->
+        <!-- ── Add custom activity ── -->
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/customActivityLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -73,35 +76,33 @@
             app:boxStrokeColor="#5E35B1"
             app:hintTextColor="#333333">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etCustomActivity"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etCustomActivity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textColorHint="#000000"
+                android:inputType="textCapWords"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:textColorHint="#000000"
-            android:inputType="textCapWords" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginTop="10dp"
+            android:hint="Enter Activity ID"
+            app:boxStrokeColor="#5E35B1"
+            app:hintTextColor="#333333">
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etCustomId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textColorHint="#555555"
+                android:inputType="number"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:hint="Enter Activity ID"
-        app:boxStrokeColor="#5E35B1"
-        app:hintTextColor="#333333">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etCustomId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:textColorHint="#555555"
-            android:inputType="number"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Add Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAddCustomActivity"
             android:layout_width="match_parent"
@@ -112,7 +113,7 @@
             app:backgroundTint="#6750A4"
             android:textColor="#FFFFFF"/>
 
-        <!-- Start Stop -->
+        <!-- ── Start / Stop recording ── -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -130,9 +131,7 @@
                 app:backgroundTint="#4CAF50"
                 android:textColor="#FFFFFF"/>
 
-            <Space
-                android:layout_width="12dp"
-                android:layout_height="1dp" />
+            <Space android:layout_width="12dp" android:layout_height="1dp"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnStop"
@@ -146,14 +145,14 @@
                 android:textColor="#FFFFFF"/>
         </LinearLayout>
 
-        <!-- Device Cards -->
+        <!-- ── Device cards ── -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:orientation="horizontal">
 
-            <!-- Right -->
+            <!-- Right device -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -171,18 +170,18 @@
 
                     <TextView
                         android:id="@+id/txtRightStatus"
-                        android:text="Right device: disconnected"
+                        android:text="Right: disconnected"
                         android:textStyle="bold"
                         android:textSize="14sp"
                         android:textColor="#D32F2F"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"/>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnDisconnectRight"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Disconnect Right"
+                        android:text="Disconnect"
                         style="@style/Widget.MaterialComponents.Button.TextButton"/>
 
                     <com.google.android.material.button.MaterialButton
@@ -198,7 +197,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Left -->
+            <!-- Left device -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -216,7 +215,7 @@
 
                     <TextView
                         android:id="@+id/txtLeftStatus"
-                        android:text="Left device: disconnected"
+                        android:text="Left: disconnected"
                         android:textStyle="bold"
                         android:textSize="14sp"
                         android:textColor="#D32F2F"
@@ -227,7 +226,7 @@
                         android:id="@+id/btnDisconnectLeft"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Disconnect Left"
+                        android:text="Disconnect"
                         style="@style/Widget.MaterialComponents.Button.TextButton"/>
 
                     <com.google.android.material.button.MaterialButton
@@ -244,24 +243,23 @@
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
-        <!-- Live Buffer -->
+        <!-- ── Live buffer ── -->
         <TextView
-            android:id="@+id/txtLiveBufferTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
             android:text="LIVE BUFFER"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:textColor="#222222"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:textColor="#222222"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvBuffer"
             android:layout_width="match_parent"
             android:layout_height="110dp"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"/>
 
-        <!-- Export -->
+        <!-- ── Export raw CSV ── -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnExport"
             android:layout_width="match_parent"
@@ -271,6 +269,17 @@
             app:cornerRadius="14dp"
             app:backgroundTint="#6750A4"
             android:textColor="#FFFFFF"/>
+
+        <!-- ── Hint to user about inference tab ── -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="After recording: Export CSV → go to Infer tab to run ONNX inference"
+            android:textSize="12sp"
+            android:textColor="#888888"
+            android:fontFamily="sans-serif-light"/>
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
