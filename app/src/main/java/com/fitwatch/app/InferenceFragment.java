@@ -83,6 +83,9 @@ public class InferenceFragment extends Fragment {
     // ── ViewModel for retained state (replaces setRetainInstance) ──────────
     private InferenceViewModel viewModel;
 
+    // ── Shared ViewModel (receives recorded CSV uri from ActivityFragment) ────
+    private SharedRecordingViewModel sharedVm;
+
     // ── Background thread ─────────────────────────────────────────────────────
     private final HandlerThread inferenceThread = new HandlerThread("InferenceThread");
     private Handler             inferenceHandler;
@@ -96,7 +99,7 @@ public class InferenceFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         viewModel = new ViewModelProvider(this).get(InferenceViewModel.class);
 
         LabelMapper.init(requireContext());
@@ -153,11 +156,11 @@ public class InferenceFragment extends Fragment {
         // Restore UI after configuration change
         if (viewModel.inputCsvUri != null)
             txtFileName.setText("File: " + viewModel.inputCsvUri.getLastPathSegment());
-        
+
         if (viewModel.modelLoaded) {
             setStatus("Model ready ✅  Pick a CSV and run inference.");
         }
-        
+
         if (viewModel.summaryText != null && !viewModel.summaryText.isEmpty()) {
             txtSummary.setText(viewModel.summaryText);
         }
@@ -171,6 +174,28 @@ public class InferenceFragment extends Fragment {
 
         btnExportResult.setOnClickListener(x ->
                 exportLauncher.launch("inference_results.csv"));
+
+        // ── Observe CSV Uri pushed by ActivityFragment on recording stop ──────
+        sharedVm = new ViewModelProvider(requireActivity())
+                .get(SharedRecordingViewModel.class);
+
+        sharedVm.recordedCsvUri.observe(getViewLifecycleOwner(), uri -> {
+            if (uri == null) return;
+
+            // Store it as the input CSV (same as if the user had picked it manually)
+            viewModel.inputCsvUri = uri;
+            txtFileName.setText("File: " + uri.getLastPathSegment());
+
+            // Enable Run Inference as soon as the model is also ready
+            boolean canRun = viewModel.modelLoaded;
+            btnRunInference.setEnabled(canRun);
+
+            if (canRun) {
+                setStatus("Recording saved ✅  Tap Run Inference to analyse.");
+            } else {
+                setStatus("Recording saved — waiting for model to load…");
+            }
+        });
     }
 
     // ── Step 1: Load ONNX model from assets ──────────────────────────────────

@@ -19,6 +19,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -81,6 +82,9 @@ public class ActivityFragment extends Fragment implements BleConnector.Callback 
     private boolean rightConnected = false;
     private boolean leftConnected  = false;
 
+    // ── Shared ViewModel (bridges to InferenceFragment) ───────────────────────
+    private SharedRecordingViewModel sharedVm;
+
     // ── Launchers ─────────────────────────────────────────────────────────────
     private ActivityResultLauncher<String>   exportLauncher;
     private ActivityResultLauncher<String[]> permissionLauncher;
@@ -94,6 +98,10 @@ public class ActivityFragment extends Fragment implements BleConnector.Callback 
         bleConnector = new BleConnector(requireContext());
         bleConnector.setCallback(this);
 
+        // Shared ViewModel — scoped to the host Activity so InferenceFragment sees it too
+        sharedVm = new ViewModelProvider(requireActivity())
+                .get(SharedRecordingViewModel.class);
+
         // Export raw BLE CSV
         exportLauncher = registerForActivityResult(
                 new ActivityResultContracts.CreateDocument("text/csv"),
@@ -101,6 +109,8 @@ public class ActivityFragment extends Fragment implements BleConnector.Callback 
                     if (uri != null) {
                         csvManager.exportToUri(requireContext(), uri);
                         toast("CSV exported");
+                        // ── Notify InferenceFragment: a new recording CSV is ready ──
+                        sharedVm.recordedCsvUri.postValue(uri);
                     }
                 });
 
@@ -360,8 +370,13 @@ public class ActivityFragment extends Fragment implements BleConnector.Callback 
         csvManager.stop();
         txtRecordState.setText("Recording: OFF");
         updateControls();
-        // Inference is now in InferenceFragment — user exports CSV and runs it there
-        toast("Recording stopped. Export CSV, then use Infer tab to analyse.");
+        // Auto-launch the save dialog so the user names the file;
+        // once saved, exportLauncher posts the Uri to sharedVm and
+        // InferenceFragment's "Run Inference" button activates automatically.
+        toast("Recording stopped — save CSV to run inference.");
+        exportLauncher.launch("activity_" +
+                new java.text.SimpleDateFormat("yyyyMMdd_HHmm",
+                        java.util.Locale.US).format(new java.util.Date()) + ".csv");
     }
 
     // ── Custom activity ───────────────────────────────────────────────────────
